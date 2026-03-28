@@ -206,3 +206,15 @@ python adaface_recognition.py
 ## 📄 License
 
 This project is for educational purposes only.
+
+## Output Screenshots
+
+![Recognition 1](assets/recognition.jpeg)
+
+![Recognition 2](assets/recognition2.jpeg)
+
+![Recognition 3](assets/recognition3.jpeg)
+
+![Recognition 4](assets/recognition4.jpeg)
+
+![Recognition 5](assets/recognition5.jpeg)
