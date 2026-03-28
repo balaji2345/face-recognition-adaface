@@ -1,8 +1,3 @@
-"""
-adaface_build_embeddings.py
-============================
-Builds students.npz using AdaFace IR-101 WebFace12M.
-"""
 
 import os, sys, cv2, argparse, shutil
 import numpy as np
@@ -10,7 +5,7 @@ import torch
 from pathlib import Path
 
 
-# ── Patch transformers ─────────────────────────
+# Patch transformers
 def _patch_transformers():
     try:
         import transformers.modeling_utils as _mu
@@ -27,13 +22,13 @@ def _patch_transformers():
         _mu.PreTrainedModel._cvlface_patched = True
 
     except Exception as e:
-        print(f"⚠️ transformers patch failed: {e}")
+        print(f" transformers patch failed: {e}")
 
 
 _patch_transformers()
 
 
-# ═════════ CONFIG ═════════
+#CONFIG
 TRAIN_DIR = r"C:\Users\TIH48\Desktop\face recognition\faces_split\train"
 FAR_DIR = r"C:\Users\TIH48\Desktop\face recognition\far_faces"
 
@@ -54,7 +49,7 @@ USE_CLAHE = True
 clahe_obj = cv2.createCLAHE(clipLimit=2.5, tileGridSize=(4, 4))
 
 
-# ═════════ DOWNLOAD ═════════
+#  DOWNLOAD
 def cmd_download():
     from huggingface_hub import hf_hub_download
 
@@ -63,7 +58,7 @@ def cmd_download():
 
     if (model_path / "model.safetensors").exists() and \
             (model_path / "wrapper.py").exists():
-        print("✅ Already downloaded")
+        print(" Already downloaded")
         return
 
     print("Downloading model...")
@@ -104,10 +99,10 @@ def cmd_download():
             local_dir_use_symlinks=False
         )
 
-    print("✅ Download Complete")
+    print(" Download Complete")
 
 
-# ═════════ LOAD MODEL ═════════
+# LOAD MODEL 
 def load_adaface():
     from transformers import AutoModel
 
@@ -134,7 +129,7 @@ def load_adaface():
 
     model = model.to(DEVICE).eval()
 
-    print("✅ AdaFace Ready")
+    print(" AdaFace Ready")
 
     return model
 
@@ -154,12 +149,12 @@ def load_detector():
         det_size=(640, 640)
     )
 
-    print("✅ Detector Ready")
+    print(" Detector Ready")
 
     return app
 
 
-# ═════════ PREPROCESS ═════════
+# PREPROCESS
 def enhance(bgr):
 
     if not USE_CLAHE:
@@ -259,7 +254,7 @@ def get_embedding(model, detector, bgr):
     return emb_np, norm_val
 
 
-# ═════════ ENCODE ═════════
+#  ENCODE 
 def encode_folder(model, detector, folder, label, embeddings, names, tag=""):
 
     exts = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
@@ -314,7 +309,7 @@ def cmd_encode():
 
     print("Encoding Training Images")
 
-    # ✅ CHANGE DONE HERE — NO SKIPPING ANY FOLDER
+    
     for d in sorted(p for p in train_path.iterdir() if p.is_dir()):
 
         # MEN / WOMEN / ANY folder will now encode
@@ -351,10 +346,10 @@ def cmd_encode():
         names=name_arr
     )
 
-    print("✅ students.npz saved")
+    print(" students.npz saved")
 
 
-# ═════════ VERIFY ═════════
+# VERIFY 
 def cmd_verify():
 
     data = np.load(
@@ -365,7 +360,7 @@ def cmd_verify():
     print("Embeddings :", len(data["names"]))
 
 
-# ═════════ TEST ═════════
+# TEST 
 def cmd_test_image(img_path):
 
     model = load_adaface()
@@ -383,7 +378,7 @@ def cmd_test_image(img_path):
     print("Norm :", norm)
 
 
-# ═════════ MAIN ═════════
+#  MAIN 
 if __name__ == "__main__":
 
     p = argparse.ArgumentParser()
