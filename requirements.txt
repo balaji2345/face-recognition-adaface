@@ -1,0 +1,8 @@
+torch
+torchvision
+opencv-python
+insightface
+ultralytics
+huggingface_hub
+omegaconf
+numpy
