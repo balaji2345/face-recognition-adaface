@@ -1,0 +1,22 @@
+# Model files
+adaface_model/
+*.pt
+*.pth
+*.safetensors
+
+# Generated data
+students.npz
+unknown_faces_adaface/
+
+# Videos
+*.mp4
+*.avi
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+env/
